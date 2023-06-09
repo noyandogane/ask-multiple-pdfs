@@ -43,18 +43,6 @@ def authenticate(username, password):
     
     return False
 
-def login():
-    st.subheader("Login")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        if authenticate(username, password):
-            st.success("Login successful!")
-            return True
-        else:
-            st.error("Invalid username or password.")
-    return False
-
 class DocumentHandler:
     def __init__(self, pdf_docs):
         self.pdf_docs = pdf_docs
@@ -117,7 +105,23 @@ class UserInputHandler:
                 st.markdown(msg, unsafe_allow_html=True)
 
 def main():
-    if login():
+    if 'authenticated' not in st.session_state:
+        if 'username' not in st.session_state:
+            st.session_state.username = ""
+        if 'password' not in st.session_state:
+            st.session_state.password = ""
+
+        st.subheader("Login")
+        username = st.text_input("Username", key="username")
+        password = st.text_input("Password", type="password", key="password")
+
+        if st.button("Login"):
+            if authenticate(username, password):
+                st.session_state.authenticated = True
+            else:
+                st.error("Invalid username or password.")
+    
+    if 'authenticated' in st.session_state and st.session_state.authenticated:
         user_question = st.text_input("Ask a question about your documents:")
 
         if user_question:
