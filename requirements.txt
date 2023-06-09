@@ -6,4 +6,4 @@ openai==0.27.6
 faiss-cpu==1.7.4
 auth0-python
 httpx-oauth
-altair 
+altair<5
