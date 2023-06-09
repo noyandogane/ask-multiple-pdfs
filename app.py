@@ -9,17 +9,12 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css
 import time
+import os
 
 load_dotenv()
 st.set_page_config(page_title="DocumentGPT", page_icon=":books:")
 st.write(css, unsafe_allow_html=True)
 st.header("DocumentGPT :books:")
-
-WHITELIST = {
-    "user1": "password1",
-    "user2": "password2",
-    "user3": "password3"
-}
 
 MAX_LOGIN_ATTEMPTS = 5
 LOCKOUT_DURATION = 60  # seconds
@@ -33,7 +28,8 @@ def authenticate(username, password):
         if elapsed_time < LOCKOUT_DURATION:
             return False
     
-    if username in WHITELIST and password == WHITELIST[username]:
+    env_password = os.getenv(f"{username.upper()}_PASSWORD")
+    if env_password and password == env_password:
         failed_login_attempts.pop(username, None)
         return True
     
