@@ -79,7 +79,7 @@ def main():
 
     st.header("DocumentGPT :books:")
 
-""
+
 
     user_question = st.text_input("Ask a question about your documents:")
 
