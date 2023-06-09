@@ -15,8 +15,6 @@ st.set_page_config(page_title="DocumentGPT", page_icon=":books:")
 st.write(css, unsafe_allow_html=True)
 st.header("DocumentGPT :books:")
 
-user_question = st.text_input("Ask a question about your documents:")
-
 WHITELIST = {
     "user1": "password1",
     "user2": "password2",
@@ -148,6 +146,8 @@ def main():
                     st.session_state.conversation = conv_handler.get_conversation_chain()
 
                 st.success("Done! You can now ask questions about your documents.")
+    else:
+        st.warning("Please log in to access the application.")
 
 if __name__ == '__main__':
     main()
